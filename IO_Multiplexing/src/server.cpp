@@ -46,7 +46,7 @@ int main(int argc, char** argv)
 
     socklen_t client_size = 0; // 保存客户端的地址结构体大小
 
-    if((clientFd == accept(serverFd, (sockaddr*)&client_addr, &client_size)) == -1) {
+    if((clientFd = accept(serverFd, (sockaddr*)&client_addr, &client_size)) == -1) {
         cout << "Accept failed : " << strerror(errno) << endl;
         return 0;
     }
