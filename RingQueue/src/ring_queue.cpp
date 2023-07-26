@@ -15,7 +15,8 @@ void RingQueue::enQueue(int value)
         m_headIndex = (m_headIndex + 1) % m_maxCapacity;
     }
     m_dataBuf[m_tailIndex] = value;
-    this->m_tailIndex = (this->m_tailIndex + 1) % this->m_maxCapacity;
+    std::cout << "Push to queue : " << m_dataBuf[m_tailIndex] << std::endl;
+    m_tailIndex = (m_tailIndex + 1) % m_maxCapacity;
 }
 
 int RingQueue::getSize()
@@ -25,11 +26,18 @@ int RingQueue::getSize()
 
 void RingQueue::showQueue()
 {
-    std::cout << "Queue >>> ";
+    std::cout << "Num in queue  is : ";
     for(int i = m_headIndex; i < m_headIndex + getSize(); i++) {
         std::cout << m_dataBuf[i] << " "; 
     }
     std::cout << std::endl;
+}
+
+void RingQueue::deQueue()
+{
+    std::cout << "Pop from queue : ";
+    std::cout << m_dataBuf[m_headIndex] << std::endl;
+    m_headIndex = (m_headIndex + 1) % m_maxCapacity; 
 }
 
 int main()
@@ -39,8 +47,17 @@ int main()
         my_queue.enQueue(i);
     }
 
+    std::cout << "-------------------------------" << std::endl;
+
     my_queue.showQueue();
 
+    std::cout << "-------------------------------" << std::endl;
+
+    my_queue.deQueue();
+
+    std::cout << "-------------------------------" << std::endl;
+
+    my_queue.showQueue();
 
     return 0;
 }
