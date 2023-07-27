@@ -32,9 +32,19 @@ int RingQueue::getSize()
 void RingQueue::showQueue()
 {
     std::cout << "Num in queue  is : ";
-    for(int i = m_headIndex; i < m_headIndex + getSize(); i++) {
-        std::cout << m_dataBuf[i] << " "; 
+
+    int n = getSize();
+
+    int num = m_headIndex;
+
+    for(int i = 0; i < getSize(); i++) {      
+        if(num >= m_maxCapacity) {
+            num = num % m_maxCapacity;
+        }
+        std::cout << m_dataBuf[num] << " ";
+        num++;
     }
+
     std::cout << std::endl;
 }
 
@@ -60,7 +70,7 @@ void RingQueue::showQueueHead()
 int main()
 {
     RingQueue my_queue(5);
-    for(int i = 0; i < 5; i++) {
+    for(int i = 0; i < 7; i++) {
         my_queue.enQueue(i);
     }
 
