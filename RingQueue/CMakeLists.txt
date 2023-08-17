@@ -3,4 +3,4 @@ cmake_minimum_required(VERSION 3.10)
 
 project(ring_queue)
 
-add_executable(${PROJECT_NAME} src/ring_queue.cpp)
+add_executable(${PROJECT_NAME} src/ring_queue_unlock.cpp)
