@@ -18,8 +18,10 @@ public:
         if(m_capacity < 1) {
             exit(1);
         } else if(m_capacity & (m_capacity - 1)) {
-        cout << "[Error] queue capacity must be a power of 2" << endl;
-        exit(1);
+            // 必须确保队列的容量是2的幂
+            // 这样才可以使用&替换%求出当前读写索引的位置，&操作比%操作更高效，是在内存中进行的
+            cout << "[Error] queue capacity must be a power of 2" << endl;
+            exit(1);
         } else {
             m_data = new T(capacity * sizeof(T));
         }
@@ -85,7 +87,7 @@ unsigned int Ring_Queue<T>::ring_push(const T* val, unsigned int len)
     unsigned int rId,wId;
     do {
         rId = m_rear.load();
-    } while (!m_rear.compare_exchange_weak(rId, (rId + len) % m_capacity));
+    } while (!m_rear.compare_exchange_weak(rId, (rId + len) & (m_capacity - 1)));
 
     length = min(len, m_capacity - rId + m_front);
 
@@ -99,7 +101,7 @@ unsigned int Ring_Queue<T>::ring_push(const T* val, unsigned int len)
 
     do {
         wId = rId;
-    } while (!m_write.compare_exchange_weak(wId, (wId + len) % m_capacity));
+    } while (!m_write.compare_exchange_weak(wId, (wId + len) & (m_capacity - 1)));
 
     return len;
 }
@@ -116,7 +118,7 @@ unsigned int Ring_Queue<T>::ring_pop(T* val, unsigned int len)
         if(fId == m_write.load()) {
             exit(1);
         }
-    } while (!m_front.compare_exchange_weak(fId, (fId + len) % m_capacity));
+    } while (!m_front.compare_exchange_weak(fId, (fId + len) & (m_capacity - 1)));
 
     length = min(len, m_rear - fId);
 
