@@ -160,3 +160,8 @@ int Ring_Queue<T>::ring_size()
 
 
 #endif
+
+/* 参考自：
+// https://zhuanlan.zhihu.com/p/534098236
+// https://luyuhuang.tech/2022/10/30/lock-free-queue.html
+*/ 
